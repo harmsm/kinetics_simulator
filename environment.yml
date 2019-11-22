@@ -1,0 +1,6 @@
+name: kinetics_simulator
+dependencies:
+  - python
+  - pip:
+    - numpy
+    - matplotlib
