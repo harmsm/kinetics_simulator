@@ -1,7 +1,7 @@
 name: kinetics_simulator
+channels:
+  - defaults
 dependencies:
-  - python
-  - pip:
-    - numpy
-    - matplotlib
-    - pandas
+  - numpy
+  - pandas
+  - matplotlib

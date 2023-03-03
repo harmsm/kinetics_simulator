@@ -6,7 +6,8 @@ models based on simple, human-readable string-basd input.
 __author__ = "Michael J. Harms (harmsm@gmail.com)"
 __date__ = "2018-11-07"
 
-import re, copy
+import re
+import copy
 import numpy as np
 
 from .base import ReactionSimulator
