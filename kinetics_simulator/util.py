@@ -8,6 +8,30 @@ __date__ = "2019-11-19"
 
 import os, re
 
+def _parse_species(species_list):
+    
+    # Allow for reactants with non-one stoichiometry
+    expanded_species = []
+    for s in species_list:
+
+        with_stoich = s.split("*")
+        if len(with_stoich) not in [1,2]:
+            raise ValueError
+
+        if len(with_stoich) == 1:
+            expanded_species.append(s)
+        else:
+            stoich = int(with_stoich[0])
+            expanded_species.extend([with_stoich[1] for _ in range(stoich)])
+
+    species = expanded_species[:]
+
+    species.sort()
+    species = tuple(species)
+    
+    return species
+
+
 def parse_reaction(some_string):
     """
     Load a reaction in from a string.  There are two types of lines.  
@@ -84,9 +108,12 @@ def parse_reaction(some_string):
 
             # Grab reactants
             reactants = [c.strip() for c in rxn[0].split("+")]
-            reactants.sort()
-            reactants = tuple(reactants)
-
+            try:
+                reactants = _parse_species(reactants)
+            except:
+                err = "mangled reaction line\n ({})\n".format(line)
+                raise ValueError(err)
+            
             # Split second field on ";": should have exactly two outputs
             products_and_rate = rxn[1].split(";")
             if len(products_and_rate) != 2:
@@ -95,8 +122,10 @@ def parse_reaction(some_string):
 
             # Product is first output
             products = [c.strip() for c in products_and_rate[0].split("+")]
-            products.sort()
-            products = tuple(products)
+            try:
+                products = _parse_species(products)
+            except:
+                err = "mangled reaction line\n ({})\n".format(line)
 
             # Rate is second output
             try:
@@ -163,6 +192,7 @@ def parse_reaction(some_string):
     # Make sure that there is a concentration specified for every species in
     # a reaction.
     if not species_seen.issubset(set(concentrations.keys())):
+        print(species_seen.difference(set(concentrations.keys())))
         err = "not all species have initial concentrations\n"
         raise ValueError(err)
 
