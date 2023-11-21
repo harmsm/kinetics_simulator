@@ -6,7 +6,8 @@ __author__ = "Michael J. Harms"
 __date__ = "2019-11-19"
 
 
-import os, re
+import os
+import re
 
 def _parse_species(species_list):
     
