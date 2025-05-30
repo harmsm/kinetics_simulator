@@ -35,7 +35,7 @@ class Gillespie(ReactionSimulator):
         if self._terminated:
             return
 
-        rxn_prob = np.zeros(self._num_reactions,dtype=np.float)
+        rxn_prob = np.zeros(self._num_reactions,dtype=float)
         for i in range(self._num_reactions):
             rxn_prob[i] = np.prod(self._current_conc[self._reactant_slices[i]])*self._rates[i]
 
