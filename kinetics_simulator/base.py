@@ -58,13 +58,13 @@ class ReactionSimulator:
             reactant_slice = []
             for reactant in k[0]:
                 reactant_slice.append(species_to_index[reactant])
-            self._reactant_slices.append(np.array(reactant_slice,dtype=np.int))
+            self._reactant_slices.append(np.array(reactant_slice,dtype=int))
 
             # slices for accessing products
             product_slice = []
             for product in k[1]:
                 product_slice.append(species_to_index[product])
-            self._product_slices.append(np.array(product_slice,dtype=np.int))
+            self._product_slices.append(np.array(product_slice,dtype=int))
   
         # current concentration, time, and conc_history
         self._current_conc = np.array([self._concentrations[s]
